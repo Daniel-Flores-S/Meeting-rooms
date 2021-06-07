@@ -12,15 +12,19 @@ import javax.persistence.Table;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "data", nullable = false)
     private String data;
 
+    @Column(name = "startHour", nullable = false)
     private  String startHour;
 
+    @Column(name = "endHour", nullable = false)
     private String endHour;
 
     public Room(Long id, String name, String data, String startHour, String endHour) {
@@ -43,7 +47,6 @@ public class Room {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -52,7 +55,6 @@ public class Room {
         this.name = name;
     }
 
-    @Column(name = "data", nullable = false)
     public String getData() {
         return data;
     }
@@ -61,7 +63,6 @@ public class Room {
         this.data = data;
     }
 
-    @Column(name = "startHour", nullable = false)
     public String getStartHour() {
         return startHour;
     }
@@ -70,7 +71,6 @@ public class Room {
         this.startHour = startHour;
     }
 
-    @Column(name = "endHour", nullable = false)
     public String getEndHour() {
         return endHour;
     }

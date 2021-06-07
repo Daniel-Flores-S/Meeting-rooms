@@ -7,15 +7,9 @@ import com.meeting.meetingRooms.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.lang.module.ResolutionException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -28,10 +22,51 @@ import javax.validation.Valid;
 public class RoomController {
 
     @Autowired
-    private Repository repository;
+    private RoomRepository repository;
 
+    @GetMapping("/rooms")
     public List<Room>  getAllRooms() {
-        
+        return repository.findAll();
+    }
+
+    @GetMapping("/rooms/{id}")
+    public ResponseEntity<Room> getRoomById(@PathVariable Long id) throws ResourceNotFoundException{
+        Room room = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Room not found:: "+id));
+        return ResponseEntity.ok().body(room);
+    }
+
+    @PostMapping("/rooms")
+    public Room createRoom(@Valid @RequestBody Room room) {
+        return repository.save(room);
+    }
+
+    @PutMapping("/rooms/{id}")
+    public ResponseEntity<Room> updateRoom(@PathVariable Long id, @Valid @RequestBody Room roomDT ) throws ResourceNotFoundException {
+        Room room = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found for this id:: "+ id));
+
+        room.setName(roomDT.getName());
+        room.setData(roomDT.getData());
+        room.setStartHour(roomDT.getStartHour());
+        room.setEndHour(roomDT.getEndHour());
+
+        final Room updateRoom = repository.save(room);
+
+        return ResponseEntity.ok(updateRoom);
+    }
+
+    @DeleteMapping("/{id}")
+    public Map<String, Boolean> deleteRoom(@PathVariable Long id) throws ResourceNotFoundException{
+        Room room = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found for this id:: "+ id));
+
+        repository.delete(room);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        return response;
+
     }
 
 }
