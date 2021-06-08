@@ -1,6 +1,6 @@
+import { RoomService } from '../room.service';
+import { Room } from '../room';
 import { Component, OnInit } from '@angular/core';
-import { RoomService } from "../room.service";
-import { Room } from "../room";
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,37 +9,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-room.component.css']
 })
 export class CreateRoomComponent implements OnInit {
+
   room: Room = new Room();
   submitted = false;
 
-  constructor(private roomService: RoomService, private router: Router) { }
+  constructor(private roomService: RoomService,
+    private router: Router) { }
 
   ngOnInit() {
   }
 
-  newRoom(): void{
-    this.submitted=false;
+  newRoom(): void {
+    this.submitted = false;
     this.room = new Room();
   }
 
-  sava() {
+  save() {
     this.roomService.createRoom(this.room)
-    .subscribe(data => console.log(data),
-    error => console.log(error));
-
-    this.room= new Room();
+      .subscribe(data => console.log(data), error => console.log(error));
+    this.room = new Room();
     this.gotoList();
-
   }
 
   onSubmit() {
-    this.submitted= true;
-    this.sava();
+    this.submitted = true;
+    this.save();    
   }
 
   gotoList() {
-    this.router.navigate(['rooms']);
+    this.router.navigate(['/rooms']);
   }
-
-
 }
