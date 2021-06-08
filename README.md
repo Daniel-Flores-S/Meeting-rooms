@@ -1,5 +1,5 @@
 <h2>Dashboard_de_vendas<h2>
-Esta aplicação consiste em un gerenciador de salas de reuniões com Java e Angular com dados fornecidos por um backend construído com Spring Boot.
+Esta aplicação consiste em um gerenciador de salas de reuniões com Java e Angular com dados fornecidos por um backend construído com Spring Boot.
 
 São necessários os seguintes pré-requisitos para a execução :
 
